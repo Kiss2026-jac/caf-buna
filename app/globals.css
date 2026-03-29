@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-primary: #e84f30;
+  --color-background-light: #f8f6f6;
+  --color-background-dark: #211411;
+  --font-sans: var(--font-work-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-work-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer utilities {
+  .boxed-section {
+    border: 1px solid rgba(232, 79, 48, 0.1);
+  }
+}
