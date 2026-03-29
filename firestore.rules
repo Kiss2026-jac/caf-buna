@@ -1,0 +1,81 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() &&
+        (
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+          (request.auth.token.email == "wrpajac@gmail.com" && request.auth.token.email_verified == true)
+        );
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'price', 'imageUrl']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
+             data.price is string && data.price.size() > 0 && data.price.size() < 50 &&
+             data.imageUrl is string && data.imageUrl.size() < 2000 &&
+             (!('description' in data) || (data.description is string && data.description.size() < 5000)) &&
+             (!('mercadoLivreUrl' in data) || (data.mercadoLivreUrl is string && data.mercadoLivreUrl.size() < 2000)) &&
+             (!('isFeatured' in data) || data.isFeatured is bool);
+    }
+
+    function isValidHistory(data) {
+      return (!('nossaHistoria' in data) || (data.nossaHistoria is string && data.nossaHistoria.size() < 50000)) &&
+             (!('historiaCafe' in data) || (data.historiaCafe is string && data.historiaCafe.size() < 50000)) &&
+             (!('guiaPreparo' in data) || (data.guiaPreparo is string && data.guiaPreparo.size() < 50000)) &&
+             (!('videoNossaHistoria' in data) || (data.videoNossaHistoria is string && data.videoNossaHistoria.size() < 2000)) &&
+             (!('videoHistoriaCafe' in data) || (data.videoHistoriaCafe is string && data.videoHistoriaCafe.size() < 2000)) &&
+             (!('videoGuiaPreparo' in data) || (data.videoGuiaPreparo is string && data.videoGuiaPreparo.size() < 2000));
+    }
+
+    function isValidLayout(data) {
+      return (!('heroTitle' in data) || (data.heroTitle is string && data.heroTitle.size() < 200)) &&
+             (!('heroSubtitle' in data) || (data.heroSubtitle is string && data.heroSubtitle.size() < 500)) &&
+             (!('heroImage' in data) || (data.heroImage is string && data.heroImage.size() < 2000)) &&
+             (!('primaryColor' in data) || (data.primaryColor is string && data.primaryColor.size() < 50)) &&
+             (!('whatsappNumber' in data) || (data.whatsappNumber is string && data.whatsappNumber.size() < 50)) &&
+             (!('banners' in data) || (data.banners is list && data.banners.size() < 20));
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'role']) &&
+             data.email is string && data.email.size() > 0 && data.email.size() < 200 &&
+             data.role is string && data.role in ['admin'];
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidProduct(request.resource.data);
+      allow update: if isAdmin() && isValidProduct(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() && isValidUser(request.resource.data);
+      allow update: if isAdmin() && isValidUser(request.resource.data);
+      allow delete: if isAdmin();
+    }
+  }
+}

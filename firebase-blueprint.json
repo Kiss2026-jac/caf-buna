@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A coffee product sold in the store",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "mercadoLivreUrl": { "type": "string" },
+        "isFeatured": { "type": "boolean" }
+      },
+      "required": ["name", "price", "imageUrl"]
+    },
+    "History": {
+      "title": "History",
+      "description": "Text and video content for history pages",
+      "type": "object",
+      "properties": {
+        "nossaHistoria": { "type": "string" },
+        "historiaCafe": { "type": "string" },
+        "guiaPreparo": { "type": "string" },
+        "videoNossaHistoria": { "type": "string" },
+        "videoHistoriaCafe": { "type": "string" },
+        "videoGuiaPreparo": { "type": "string" }
+      }
+    },
+    "Layout": {
+      "title": "Layout",
+      "description": "Layout configuration and banners",
+      "type": "object",
+      "properties": {
+        "heroTitle": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "heroImage": { "type": "string" },
+        "primaryColor": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "banners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "subtitle": { "type": "string" },
+              "image": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "User": {
+      "title": "User",
+      "description": "Admin user profile",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Store products"
+    },
+    "/settings/history": {
+      "schema": { "$ref": "#/entities/History" },
+      "description": "History and video settings"
+    },
+    "/settings/layout": {
+      "schema": { "$ref": "#/entities/Layout" },
+      "description": "Layout and banner settings"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Admin users"
+    }
+  }
+}
