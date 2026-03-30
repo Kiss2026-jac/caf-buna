@@ -51,6 +51,44 @@
         }
       }
     },
+    "SocialMedia": {
+      "title": "Social Media",
+      "description": "Social media links for the footer",
+      "type": "object",
+      "properties": {
+        "instagram": { "type": "string" },
+        "facebook": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "youtube": { "type": "string" },
+        "tiktok": { "type": "string" }
+      }
+    },
+    "AssinaturaContent": {
+      "title": "Assinatura Content",
+      "description": "Content and plans for the subscription page",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "plans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "price": { "type": "string" },
+              "description": { "type": "string" },
+              "features": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "isPopular": { "type": "boolean" },
+              "checkoutUrl": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
     "User": {
       "title": "User",
       "description": "Admin user profile",
@@ -74,6 +112,14 @@
     "/settings/layout": {
       "schema": { "$ref": "#/entities/Layout" },
       "description": "Layout and banner settings"
+    },
+    "/settings/social_media": {
+      "schema": { "$ref": "#/entities/SocialMedia" },
+      "description": "Social media links"
+    },
+    "/settings/assinatura_content": {
+      "schema": { "$ref": "#/entities/AssinaturaContent" },
+      "description": "Subscription plans and content"
     },
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/User" },

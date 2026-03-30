@@ -101,15 +101,18 @@ export default function Assinatura() {
                   </li>
                 ))}
               </ul>
-              <button 
-                className={`w-full font-bold py-3 rounded-lg transition-colors ${
+              <a 
+                href={plan.checkoutUrl || '#'}
+                target={plan.checkoutUrl ? "_blank" : "_self"}
+                rel={plan.checkoutUrl ? "noopener noreferrer" : ""}
+                className={`w-full font-bold py-3 rounded-lg transition-colors text-center block ${
                   plan.isPopular 
                     ? 'bg-primary text-white hover:opacity-90' 
                     : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'
                 }`}
               >
                 ASSINAR AGORA
-              </button>
+              </a>
             </div>
           ))}
         </div>

@@ -59,6 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Guia de Preparo', href: '/admin/guia', icon: BookOpen },
     { name: 'Assinatura', href: '/admin/assinatura', icon: ShoppingBag },
     { name: 'Personagens', href: '/admin/personagens', icon: Users },
+    { name: 'Redes Sociais', href: '/admin/redes-sociais', icon: Mail },
     { name: 'Exportar Código', href: '/admin/exportar', icon: Download },
   ];
 

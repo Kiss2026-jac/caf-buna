@@ -1,7 +1,27 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Coffee, Share2, AtSign, Globe } from 'lucide-react';
+import { Coffee, Share2, AtSign, Globe, Instagram, Facebook, Youtube } from 'lucide-react';
+import { loadData } from '@/lib/data-client';
+
+const DEFAULT_SOCIAL = {
+  instagram: '',
+  facebook: '',
+  whatsapp: '',
+  youtube: '',
+  tiktok: ''
+};
 
 export default function Footer() {
+  const [social, setSocial] = useState<any>(DEFAULT_SOCIAL);
+
+  useEffect(() => {
+    loadData('buna_social_media', DEFAULT_SOCIAL).then(data => {
+      setSocial(data);
+    });
+  }, []);
+
   return (
     <footer className="bg-white border-t border-primary/10 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -44,9 +64,34 @@ export default function Footer() {
         <div className="space-y-4">
           <h6 className="font-bold text-sm uppercase text-slate-900">Siga-nos</h6>
           <div className="flex gap-4">
-            <Link className="text-slate-400 hover:text-primary" href="/"><Share2 className="w-5 h-5" /></Link>
-            <Link className="text-slate-400 hover:text-primary" href="/"><AtSign className="w-5 h-5" /></Link>
-            <Link className="text-slate-400 hover:text-primary" href="/"><Globe className="w-5 h-5" /></Link>
+            {social.instagram && (
+              <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary">
+                <Instagram className="w-5 h-5" />
+              </a>
+            )}
+            {social.facebook && (
+              <a href={social.facebook} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary">
+                <Facebook className="w-5 h-5" />
+              </a>
+            )}
+            {social.youtube && (
+              <a href={social.youtube} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary">
+                <Youtube className="w-5 h-5" />
+              </a>
+            )}
+            {social.tiktok && (
+              <a href={social.tiktok} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+              </a>
+            )}
+            {social.whatsapp && (
+              <a href={social.whatsapp} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary">
+                <Share2 className="w-5 h-5" />
+              </a>
+            )}
+            {!social.instagram && !social.facebook && !social.youtube && !social.tiktok && !social.whatsapp && (
+              <span className="text-xs text-slate-400">Nenhuma rede social configurada.</span>
+            )}
           </div>
         </div>
       </div>

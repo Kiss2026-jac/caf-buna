@@ -17,7 +17,8 @@ const DEFAULT_ASSINATURA = {
         'Curadoria de cafés clássicos',
         'Frete grátis'
       ],
-      isPopular: false
+      isPopular: false,
+      checkoutUrl: ''
     },
     {
       name: 'Avançado',
@@ -29,7 +30,8 @@ const DEFAULT_ASSINATURA = {
         'Brinde surpresa a cada 3 meses',
         'Frete grátis'
       ],
-      isPopular: true
+      isPopular: true,
+      checkoutUrl: ''
     },
     {
       name: 'Expert',
@@ -41,7 +43,8 @@ const DEFAULT_ASSINATURA = {
         'Acesso antecipado a lançamentos',
         'Frete grátis'
       ],
-      isPopular: false
+      isPopular: false,
+      checkoutUrl: ''
     }
   ]
 };
@@ -132,7 +135,8 @@ export default function AdminAssinatura() {
           price: '0',
           description: '',
           features: ['Nova característica'],
-          isPopular: false
+          isPopular: false,
+          checkoutUrl: ''
         }
       ]
     }));
@@ -252,6 +256,17 @@ export default function AdminAssinatura() {
                     onChange={(e) => handlePlanChange(planIndex, 'description', e.target.value)}
                     rows={2}
                     className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Link de Pagamento (Checkout)</label>
+                  <input
+                    type="text"
+                    value={plan.checkoutUrl || ''}
+                    onChange={(e) => handlePlanChange(planIndex, 'checkoutUrl', e.target.value)}
+                    placeholder="Ex: https://mpago.la/..."
+                    className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                   />
                 </div>
                 
