@@ -17,6 +17,9 @@ const DEFAULT_DATA = {
   heroImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCxuXbUGe0cigxJrsnrw3nGBHezJc9XUOKC6BQOfNfatqPAfrIIMNdTtzy45dCOPhE-upZu6J4ye08Vo-IhY1z1njc09v_EbbqW7yh1lUCnUHqsbc3Tt0iz9llhoh8egZolkhSm8ZlN8QsII1v7RzmwpyN_VoJWTTiyajLhqFj13dym-il-zKhFnDyRuX89KG6iVs-LK_2iho9oGkhIZs8I1BwKhZ9pjHU2zria-8lux05-R40fAcFY82cshnGrxGYpPc8YzRM79dQj',
   primaryColor: '#8B4513',
   whatsappNumber: '5511999999999',
+  copyrightYear: '2026',
+  developerName: 'AVP SOLUÇÕES DIGITAIS',
+  developerUrl: 'https://avpsolucoesdigitais.com.br',
   banners: [] as Banner[],
 };
 
@@ -288,6 +291,51 @@ export default function AdminLayoutConfig() {
                 placeholder="Ex: 5511999999999"
               />
               <p className="text-xs text-slate-500 mt-2">Apenas números, incluindo código do país (55) e DDD. Ex: 5511988887777</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Config */}
+        <div className="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <Type className="w-6 h-6 text-slate-400" />
+            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900">
+              Rodapé (Footer)
+            </h2>
+          </div>
+          
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Ano de Copyright</label>
+              <input
+                type="text"
+                value={layoutData.copyrightYear || ''}
+                onChange={e => setLayoutData({...layoutData, copyrightYear: e.target.value})}
+                className="w-full max-w-md px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                placeholder="Ex: 2026"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Nome do Desenvolvedor / Agência</label>
+              <input
+                type="text"
+                value={layoutData.developerName || ''}
+                onChange={e => setLayoutData({...layoutData, developerName: e.target.value})}
+                className="w-full max-w-md px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                placeholder="Ex: AVP SOLUÇÕES DIGITAIS"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Link do Desenvolvedor</label>
+              <input
+                type="url"
+                value={layoutData.developerUrl || ''}
+                onChange={e => setLayoutData({...layoutData, developerUrl: e.target.value})}
+                className="w-full max-w-md px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                placeholder="Ex: https://avpsolucoesdigitais.com.br"
+              />
             </div>
           </div>
         </div>

@@ -15,10 +15,25 @@ const DEFAULT_SOCIAL = {
 
 export default function Footer() {
   const [social, setSocial] = useState<any>(DEFAULT_SOCIAL);
+  const [layout, setLayout] = useState<any>({
+    copyrightYear: '2026',
+    developerName: 'AVP SOLUÇÕES DIGITAIS',
+    developerUrl: 'https://avpsolucoesdigitais.com.br'
+  });
 
   useEffect(() => {
     loadData('buna_social_media', DEFAULT_SOCIAL).then(data => {
       setSocial(data);
+    });
+    loadData('buna_layout', {}).then(data => {
+      if (data) {
+        setLayout((prev: any) => ({
+          ...prev,
+          copyrightYear: data.copyrightYear || prev.copyrightYear,
+          developerName: data.developerName || prev.developerName,
+          developerUrl: data.developerUrl || prev.developerUrl
+        }));
+      }
     });
   }, []);
 
@@ -96,7 +111,9 @@ export default function Footer() {
         </div>
       </div>
       <div className="text-center pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">© 2024 bunashop.com.br. TODOS OS DIREITOS RESERVADOS. PÁGINA CONSTRUÍDA POR AVP SOLUÇÕES DIGITAIS.</p>
+        <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
+          © {layout.copyrightYear} bunashop.com.br. TODOS OS DIREITOS RESERVADOS. PÁGINA CONSTRUÍDA POR <a href={layout.developerUrl} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline underline-offset-2">{layout.developerName}</a>.
+        </p>
         <Link href="/admin" className="text-[10px] text-slate-400 hover:text-primary uppercase tracking-widest font-bold">Área Admin</Link>
       </div>
     </div>

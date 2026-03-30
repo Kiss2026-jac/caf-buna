@@ -37,6 +37,9 @@
         "heroImage": { "type": "string" },
         "primaryColor": { "type": "string" },
         "whatsappNumber": { "type": "string" },
+        "copyrightYear": { "type": "string" },
+        "developerName": { "type": "string" },
+        "developerUrl": { "type": "string" },
         "banners": {
           "type": "array",
           "items": {
