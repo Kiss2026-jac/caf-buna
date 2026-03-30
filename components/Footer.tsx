@@ -70,10 +70,10 @@ export default function Footer() {
         <div className="space-y-3">
           <h6 className="font-bold text-sm uppercase text-slate-900">Suporte</h6>
           <ul className="text-xs text-slate-500 space-y-2">
-            <li><Link className="hover:text-primary" href="/">Envios e Entregas</Link></li>
-            <li><Link className="hover:text-primary" href="/">Trocas e Devoluções</Link></li>
-            <li><Link className="hover:text-primary" href="/">Perguntas Frequentes</Link></li>
-            <li><Link className="hover:text-primary" href="/">Contato</Link></li>
+            <li><Link className="hover:text-primary" href="/envios">Envios e Entregas</Link></li>
+            <li><Link className="hover:text-primary" href="/trocas">Trocas e Devoluções</Link></li>
+            <li><Link className="hover:text-primary" href="/faq">Perguntas Frequentes</Link></li>
+            <li><Link className="hover:text-primary" href="/contato">Contato</Link></li>
           </ul>
         </div>
         <div className="space-y-4">

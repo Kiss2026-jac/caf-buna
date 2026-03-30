@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, ShoppingBag, BookOpen, Settings, LogOut, Menu, X, Mail, Lock, Download, Users } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, BookOpen, Settings, LogOut, Menu, X, Mail, Lock, Download, Users, HelpCircle, FileText } from 'lucide-react';
 import { auth } from '@/firebase';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 
@@ -58,6 +58,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Páginas', href: '/admin/paginas', icon: BookOpen },
     { name: 'Guia de Preparo', href: '/admin/guia', icon: BookOpen },
     { name: 'Assinatura', href: '/admin/assinatura', icon: ShoppingBag },
+    { name: 'Perguntas Frequentes', href: '/admin/faq', icon: HelpCircle },
+    { name: 'Páginas de Suporte', href: '/admin/paginas-legais', icon: FileText },
     { name: 'Personagens', href: '/admin/personagens', icon: Users },
     { name: 'Redes Sociais', href: '/admin/redes-sociais', icon: Mail },
     { name: 'Exportar Código', href: '/admin/exportar', icon: Download },

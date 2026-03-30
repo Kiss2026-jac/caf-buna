@@ -269,7 +269,7 @@ export default function Home() {
               A BunaShop nasceu da paixão por conectar pequenos produtores a amantes de café exigentes. Cada grão conta uma história de dedicação, sustentabilidade e amor pela terra.
             </p>
             <div className="pt-4">
-              <Link href="/historia" className="bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-colors inline-flex items-center gap-2">
+              <Link href="/nossa-historia" className="bg-white text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-colors inline-flex items-center gap-2">
                 CONHEÇA NOSSA HISTÓRIA <ArrowRight className="w-5 h-5" />
               </Link>
             </div>

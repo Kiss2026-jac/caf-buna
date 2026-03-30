@@ -92,6 +92,34 @@
         }
       }
     },
+    "FAQ": {
+      "title": "FAQ",
+      "description": "Frequently Asked Questions",
+      "type": "object",
+      "properties": {
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "question": { "type": "string" },
+              "answer": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "LegalPages": {
+      "title": "Legal Pages",
+      "description": "Content for legal and support pages",
+      "type": "object",
+      "properties": {
+        "envios": { "type": "string" },
+        "trocas": { "type": "string" },
+        "contato": { "type": "string" }
+      }
+    },
     "User": {
       "title": "User",
       "description": "Admin user profile",
@@ -123,6 +151,14 @@
     "/settings/assinatura_content": {
       "schema": { "$ref": "#/entities/AssinaturaContent" },
       "description": "Subscription plans and content"
+    },
+    "/settings/faq": {
+      "schema": { "$ref": "#/entities/FAQ" },
+      "description": "Frequently Asked Questions"
+    },
+    "/settings/legal_pages": {
+      "schema": { "$ref": "#/entities/LegalPages" },
+      "description": "Content for legal pages like envios, trocas, contato"
     },
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/User" },
