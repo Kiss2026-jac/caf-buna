@@ -34,7 +34,7 @@ export default function AdminPersonagens() {
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
   useEffect(() => {
-    loadData('buna_personagens', null).then(data => {
+    loadData('buna_personagens', { personagens: DEFAULT_PERSONAGENS }).then(data => {
       if (data && data.personagens) {
         setPersonagens(data.personagens);
       }
@@ -59,15 +59,39 @@ export default function AdminPersonagens() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) { // 1MB limit
-      alert('A imagem é muito grande. Por favor, escolha uma imagem com menos de 1MB.');
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit before compression
+      alert('A imagem é muito grande. Por favor, escolha uma imagem com menos de 5MB.');
       return;
     }
 
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      setPersonagens(prev => prev.map(p => p.id === id ? { ...p, imageUrl: base64String } : p));
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxWidth = 800;
+        const maxHeight = 800;
+
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        const base64String = canvas.toDataURL('image/webp', 0.8);
+        setPersonagens(prev => prev.map(p => p.id === id ? { ...p, imageUrl: base64String } : p));
+      };
+      img.src = event.target?.result as string;
     };
     reader.readAsDataURL(file);
   };

@@ -7,17 +7,31 @@ export async function loadData(key: string, defaultValue: any) {
       const snapshot = await getDocs(collection(db, 'products'));
       if (snapshot.empty) {
         // Initialize with default
-        await saveData(key, defaultValue);
+        if (defaultValue) {
+          await saveData(key, defaultValue);
+        }
         return defaultValue;
       }
       return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } else if (key === 'buna_personagens') {
+      const snapshot = await getDocs(collection(db, 'personagens'));
+      if (snapshot.empty) {
+        // Initialize with default
+        if (defaultValue) {
+          await saveData(key, defaultValue);
+        }
+        return defaultValue;
+      }
+      return { personagens: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) };
     } else {
       const docRef = doc(db, 'settings', key.replace('buna_', ''));
       const snapshot = await getDoc(docRef);
       if (snapshot.exists()) {
         return snapshot.data();
       } else {
-        await saveData(key, defaultValue);
+        if (defaultValue) {
+          await saveData(key, defaultValue);
+        }
         return defaultValue;
       }
     }
@@ -30,6 +44,8 @@ export async function loadData(key: string, defaultValue: any) {
 export async function saveData(key: string, data: any) {
   try {
     if (key === 'buna_products') {
+      if (!data || !Array.isArray(data)) return;
+      
       const batch = writeBatch(db);
       const productsRef = collection(db, 'products');
       
@@ -52,7 +68,30 @@ export async function saveData(key: string, data: any) {
       }
       
       await batch.commit();
+    } else if (key === 'buna_personagens') {
+      if (!data || !data.personagens) return;
+      
+      const batch = writeBatch(db);
+      const personagensRef = collection(db, 'personagens');
+      
+      const existing = await getDocs(personagensRef);
+      const existingIds = existing.docs.map(d => d.id);
+      const newIds = data.personagens.map((p: any) => p.id);
+      
+      for (const id of existingIds) {
+        if (!newIds.includes(id)) {
+          batch.delete(doc(db, 'personagens', id));
+        }
+      }
+      
+      for (const item of data.personagens) {
+        const { id, ...rest } = item;
+        batch.set(doc(db, 'personagens', id || Date.now().toString()), rest);
+      }
+      
+      await batch.commit();
     } else {
+      if (!data) return;
       const docRef = doc(db, 'settings', key.replace('buna_', ''));
       await setDoc(docRef, data);
     }

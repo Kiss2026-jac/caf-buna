@@ -35,6 +35,7 @@ export default function AdminLayoutConfig() {
   }));
   const [isMounted, setIsMounted] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -62,9 +63,15 @@ export default function AdminLayoutConfig() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveData('buna_layout', layoutData);
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
+    setSaveError('');
+    try {
+      await saveData('buna_layout', layoutData);
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (error: any) {
+      console.error('Erro ao salvar layout:', error);
+      setSaveError('Erro ao salvar. Verifique se as imagens não estão muito grandes.');
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, bannerId: string) => {
@@ -99,7 +106,7 @@ export default function AdminLayoutConfig() {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64 = canvas.toDataURL('image/jpeg', 0.8);
+          const base64 = canvas.toDataURL('image/webp', 0.7);
           setLayoutData((prev: any) => {
             const newBanners = prev.banners.map((b: any) => 
               b.id === bannerId ? { ...b, image: base64 } : b
@@ -341,6 +348,7 @@ export default function AdminLayoutConfig() {
         </div>
 
         <div className="flex items-center justify-end gap-4 sticky bottom-4 bg-white/80 backdrop-blur-md p-4 rounded-xl border border-slate-200 shadow-lg">
+          {saveError && <span className="text-red-600 font-bold text-sm">{saveError}</span>}
           {isSaved && <span className="text-emerald-600 font-bold text-sm">Configurações salvas com sucesso!</span>}
           <button
             type="submit"

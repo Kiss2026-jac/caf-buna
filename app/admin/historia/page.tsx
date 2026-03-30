@@ -40,6 +40,7 @@ const DEFAULT_HISTORY = {
 export default function AdminHistoria() {
   const [historyData, setHistoryData] = useState<HistoryData>(DEFAULT_HISTORY);
   const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     loadData('buna_history', DEFAULT_HISTORY).then(parsed => {
@@ -54,9 +55,15 @@ export default function AdminHistoria() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveData('buna_history', historyData);
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
+    setSaveError('');
+    try {
+      await saveData('buna_history', historyData);
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (error: any) {
+      console.error('Erro ao salvar história:', error);
+      setSaveError('Erro ao salvar. Verifique se as imagens não estão muito grandes.');
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, section: 'nossaHistoria' | 'historiaCafe' | number) => {
@@ -91,7 +98,7 @@ export default function AdminHistoria() {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64 = canvas.toDataURL('image/jpeg', 0.8);
+          const base64 = canvas.toDataURL('image/webp', 0.7);
           
           if (section === 'nossaHistoria' || section === 'historiaCafe') {
             setHistoryData((prev) => ({
@@ -411,6 +418,7 @@ export default function AdminHistoria() {
         </div>
 
         <div className="flex items-center justify-end gap-4 sticky bottom-4 bg-white/80 backdrop-blur-md p-4 rounded-xl border border-slate-200 shadow-lg">
+          {saveError && <span className="text-red-600 font-bold text-sm">{saveError}</span>}
           {isSaved && <span className="text-emerald-600 font-bold text-sm">Alterações salvas com sucesso!</span>}
           <button
             type="submit"

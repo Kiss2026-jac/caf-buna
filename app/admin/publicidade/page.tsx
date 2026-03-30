@@ -26,6 +26,7 @@ export default function AdminPublicidade() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [isMounted, setIsMounted] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -38,9 +39,15 @@ export default function AdminPublicidade() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveData('buna_ads', { ads });
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
+    setSaveError('');
+    try {
+      await saveData('buna_ads', { ads });
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (error: any) {
+      console.error('Erro ao salvar publicidade:', error);
+      setSaveError('Erro ao salvar. Verifique se as imagens não estão muito grandes.');
+    }
   };
 
   const addAd = () => {
@@ -98,7 +105,7 @@ export default function AdminPublicidade() {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64 = canvas.toDataURL('image/jpeg', 0.8);
+          const base64 = canvas.toDataURL('image/webp', 0.7);
           updateAd(id, 'imageUrl', base64);
         };
         img.src = event.target?.result as string;
@@ -247,6 +254,7 @@ export default function AdminPublicidade() {
 
         {ads.length > 0 && (
           <div className="flex items-center justify-end gap-4 sticky bottom-4 bg-white/80 backdrop-blur-md p-4 rounded-xl border border-slate-200 shadow-lg">
+            {saveError && <span className="text-red-600 font-bold text-sm">{saveError}</span>}
             {isSaved && <span className="text-emerald-600 font-bold text-sm">Publicidades salvas com sucesso!</span>}
             <button
               type="submit"
