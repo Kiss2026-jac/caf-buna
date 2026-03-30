@@ -120,6 +120,26 @@
         "contato": { "type": "string" }
       }
     },
+    "Ads": {
+      "title": "Ads",
+      "description": "Global advertising banners",
+      "type": "object",
+      "properties": {
+        "ads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "imageUrl": { "type": "string" },
+              "linkUrl": { "type": "string" },
+              "isActive": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
     "User": {
       "title": "User",
       "description": "Admin user profile",
@@ -159,6 +179,10 @@
     "/settings/legal_pages": {
       "schema": { "$ref": "#/entities/LegalPages" },
       "description": "Content for legal pages like envios, trocas, contato"
+    },
+    "/settings/ads": {
+      "schema": { "$ref": "#/entities/Ads" },
+      "description": "Global advertising banners"
     },
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/User" },

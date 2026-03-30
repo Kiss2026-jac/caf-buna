@@ -24,9 +24,10 @@ export default function GlobalAds() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
-    loadData('buna_ads', DEFAULT_ADS).then(data => {
-      if (data && data.length > 0) {
-        setAds(data.filter((ad: any) => ad.isActive));
+    loadData('buna_ads', { ads: DEFAULT_ADS }).then(data => {
+      const loadedAds = data?.ads || DEFAULT_ADS;
+      if (loadedAds && loadedAds.length > 0) {
+        setAds(loadedAds.filter((ad: any) => ad.isActive));
       } else {
         setAds(DEFAULT_ADS);
       }

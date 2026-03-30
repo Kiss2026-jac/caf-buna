@@ -30,14 +30,15 @@ export default function AdminPublicidade() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
-    loadData('buna_ads', DEFAULT_ADS).then(data => {
-      setAds(data && data.length > 0 ? data : DEFAULT_ADS);
+    loadData('buna_ads', { ads: DEFAULT_ADS }).then(data => {
+      const loadedAds = data?.ads || DEFAULT_ADS;
+      setAds(loadedAds.length > 0 ? loadedAds : DEFAULT_ADS);
     });
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveData('buna_ads', ads);
+    await saveData('buna_ads', { ads });
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
   };
